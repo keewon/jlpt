@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>JLPT N4 문자·어휘 퀴즈</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 시작 화면 -->
+  <div id="screen-start" class="screen active">
+    <div class="container">
+      <h1>JLPT N4<br><span class="subtitle">문자·어휘 퀴즈</span></h1>
+      <div class="filter-section">
+        <p class="filter-label">문제 유형 선택</p>
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-type="all">전체</button>
+          <button class="filter-btn" data-type="reading">읽기 (読み)</button>
+          <button class="filter-btn" data-type="writing">쓰기 (書き)</button>
+          <button class="filter-btn" data-type="context">문맥 어휘</button>
+          <button class="filter-btn" data-type="synonym">유의 표현</button>
+          <button class="filter-btn" data-type="grammar">문법</button>
+          <button class="filter-btn" data-type="weak">약한 문제</button>
+        </div>
+        <p id="question-count" class="question-count">전체 80문제</p>
+      </div>
+      <button id="btn-start" class="btn-primary">시작하기</button>
+    </div>
+  </div>
+
+  <!-- 퀴즈 화면 -->
+  <div id="screen-quiz" class="screen">
+    <div class="container">
+      <div class="quiz-header">
+        <div class="progress-info">
+          <span id="progress-text">1 / 20</span>
+          <span id="score-text">0점</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <span id="type-badge" class="type-badge">읽기</span>
+      </div>
+
+      <div class="quiz-body">
+        <p id="sentence" class="sentence"></p>
+        <p id="question" class="question"></p>
+      </div>
+
+      <div id="choices" class="choices"></div>
+
+      <button id="btn-next" class="btn-primary btn-next" style="display:none;">다음 →</button>
+    </div>
+  </div>
+
+  <!-- 결과 화면 -->
+  <div id="screen-result" class="screen">
+    <div class="container">
+      <h2 class="result-title">결과</h2>
+      <div class="result-score">
+        <span id="result-score-num" class="score-num">0</span>
+        <span class="score-divider">/</span>
+        <span id="result-total-num" class="total-num">0</span>
+      </div>
+      <p id="result-percent" class="result-percent"></p>
+      <p id="result-message" class="result-message"></p>
+
+      <div id="wrong-section" class="wrong-section" style="display:none;">
+        <h3>틀린 문제 복습</h3>
+        <div id="wrong-list" class="wrong-list"></div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-retry-wrong" class="btn-secondary" style="display:none;">틀린 문제만 다시</button>
+        <button id="btn-restart" class="btn-primary">처음으로</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
