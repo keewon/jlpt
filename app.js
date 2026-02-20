@@ -65,6 +65,7 @@
   const btnNext = document.getElementById('btn-next');
   const btnRestart = document.getElementById('btn-restart');
   const btnRetryWrong = document.getElementById('btn-retry-wrong');
+  const btnHome = document.getElementById('btn-home');
   const questionCountEl = document.getElementById('question-count');
   const progressText = document.getElementById('progress-text');
   const scoreText = document.getElementById('score-text');
@@ -270,6 +271,11 @@
 
   // Restart
   btnRestart.addEventListener('click', function () {
+    showScreen(screenStart);
+  });
+
+  // Home (quit quiz)
+  btnHome.addEventListener('click', function () {
     showScreen(screenStart);
   });
 
