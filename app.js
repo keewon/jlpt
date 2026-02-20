@@ -164,6 +164,8 @@
     startQuiz(questions);
   });
 
+  var choiceOrder = [];
+
   function showQuestion() {
     answered = false;
     btnNext.style.display = 'none';
@@ -178,13 +180,17 @@
     sentenceEl.innerHTML = q.sentence;
     questionEl.textContent = q.question;
 
+    // Shuffle choice order
+    choiceOrder = [0, 1, 2, 3];
+    shuffle(choiceOrder);
+
     choicesEl.innerHTML = '';
-    q.choices.forEach(function (choice, i) {
+    choiceOrder.forEach(function (origIdx, displayIdx) {
       var btn = document.createElement('button');
       btn.className = 'choice-btn';
-      btn.innerHTML = '<span class="choice-label">' + CHOICE_LABELS[i] + '</span><span>' + choice + '</span>';
+      btn.innerHTML = '<span class="choice-label">' + CHOICE_LABELS[displayIdx] + '</span><span>' + q.choices[origIdx] + '</span>';
       btn.addEventListener('click', function () {
-        selectAnswer(i);
+        selectAnswer(origIdx);
       });
       choicesEl.appendChild(btn);
     });
@@ -198,12 +204,13 @@
     var correct = q.answer;
     var buttons = choicesEl.querySelectorAll('.choice-btn');
 
-    buttons.forEach(function (btn, i) {
+    buttons.forEach(function (btn, displayIdx) {
+      var origIdx = choiceOrder[displayIdx];
       btn.classList.add('disabled');
-      if (i === correct) {
+      if (origIdx === correct) {
         btn.classList.add('correct');
       }
-      if (i === selected && selected !== correct) {
+      if (origIdx === selected && selected !== correct) {
         btn.classList.add('wrong');
       }
     });
@@ -222,11 +229,12 @@
 
     // Show readings for choices if available
     if (q.readings) {
-      buttons.forEach(function (btn, i) {
-        if (q.readings[i] !== q.choices[i]) {
+      buttons.forEach(function (btn, displayIdx) {
+        var origIdx = choiceOrder[displayIdx];
+        if (q.readings[origIdx] !== q.choices[origIdx]) {
           var readingEl = document.createElement('span');
           readingEl.className = 'choice-reading';
-          readingEl.textContent = q.readings[i];
+          readingEl.textContent = q.readings[origIdx];
           btn.appendChild(readingEl);
         }
       });
@@ -323,7 +331,7 @@
     if (!answered) {
       var keyMap = { '1': 0, '2': 1, '3': 2, '4': 3 };
       if (keyMap[e.key] !== undefined) {
-        selectAnswer(keyMap[e.key]);
+        selectAnswer(choiceOrder[keyMap[e.key]]);
       }
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
