@@ -346,6 +346,13 @@ h1 .subtitle {
   color: white;
 }
 
+.choice-reading {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  font-weight: 400;
+}
+
 .choice-btn.disabled {
   cursor: default;
   opacity: 0.6;

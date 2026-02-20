@@ -220,6 +220,18 @@
       recordAnswer(q.id, false);
     }
 
+    // Show readings for choices if available
+    if (q.readings) {
+      buttons.forEach(function (btn, i) {
+        if (q.readings[i] !== q.choices[i]) {
+          var readingEl = document.createElement('span');
+          readingEl.className = 'choice-reading';
+          readingEl.textContent = q.readings[i];
+          btn.appendChild(readingEl);
+        }
+      });
+    }
+
     // Show explanation if available
     if (q.explanations) {
       var expDiv = document.createElement('div');
