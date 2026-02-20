@@ -41,26 +41,42 @@
     localStorage.setItem(statsKey(), JSON.stringify(stats));
   }
 
+  var BOX_INTERVALS = [0, 86400000, 259200000, 604800000, 2592000000]; // 0, 1d, 3d, 7d, 30d
+
   function recordAnswer(questionId, isCorrect) {
     var stats = loadStats();
     if (!stats[questionId]) {
-      stats[questionId] = { correct: 0, wrong: 0 };
+      stats[questionId] = { correct: 0, wrong: 0, box: 0 };
     }
+    var s = stats[questionId];
     if (isCorrect) {
-      stats[questionId].correct++;
+      s.correct++;
+      s.box = Math.min((s.box || 0) + 1, 4);
+      s.lastCorrect = Date.now();
     } else {
-      stats[questionId].wrong++;
+      s.wrong++;
+      s.box = 0;
+      s.lastWrong = Date.now();
     }
     saveStats(stats);
   }
 
-  function getWeakQuestions() {
+  function isDue(s) {
+    if (!s) return false;
+    // Migration: no box field means old data
+    if (s.box === undefined) {
+      return s.wrong > 0 && s.wrong >= s.correct;
+    }
+    if (s.box === 0) return true;
+    var lastAnswered = Math.max(s.lastCorrect || 0, s.lastWrong || 0);
+    if (lastAnswered === 0) return true;
+    return Date.now() >= lastAnswered + BOX_INTERVALS[s.box];
+  }
+
+  function getReviewQuestions() {
     var stats = loadStats();
     return allQuestions.filter(function (q) {
-      var s = stats[q.id];
-      if (!s) return false;
-      if (s.wrong === 0) return false;
-      return s.wrong >= s.correct;
+      return isDue(stats[q.id]);
     });
   }
 
@@ -126,11 +142,12 @@
     var quizSize = Math.min(total, QUIZ_SIZE);
     var typeLabel = selectedFilter === 'all' ? t('filterAll') : getTypeLabel(selectedFilter);
     questionCountEl.textContent = t('questionCountFmt', { type: typeLabel, total: total, size: quizSize });
+    updateReviewCount();
   }
 
   function getFilteredQuestions() {
     if (selectedFilter === 'all') return allQuestions.slice();
-    if (selectedFilter === 'weak') return getWeakQuestions();
+    if (selectedFilter === 'review') return getReviewQuestions();
     return allQuestions.filter(function (q) { return q.type === selectedFilter; });
   }
 
@@ -344,6 +361,13 @@
       btnNext.click();
     }
   });
+
+  function updateReviewCount() {
+    var badge = document.getElementById('review-count');
+    if (!badge) return;
+    var count = getReviewQuestions().length;
+    badge.textContent = count > 0 ? count : '';
+  }
 
   // Re-render dynamic text when language changes
   window.i18n.onLangChange.push(function () {

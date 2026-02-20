@@ -11,7 +11,7 @@
       filterContext: 'Context',
       filterSynonym: 'Synonyms',
       filterGrammar: 'Grammar',
-      filterWeak: 'Weak',
+      filterReview: 'Review',
       startBtn: 'Start',
       homeTitle: 'Home',
       nextBtn: 'Next →',
@@ -34,7 +34,7 @@
       typeLabelContext: 'Context',
       typeLabelSynonym: 'Synonym',
       typeLabelGrammar: 'Grammar',
-      typeLabelWeak: 'Weak'
+      typeLabelReview: 'Review'
     },
     'zh-CN': {
       subtitle: '文字·词汇 测验',
@@ -45,7 +45,7 @@
       filterContext: '语境词汇',
       filterSynonym: '近义表达',
       filterGrammar: '语法',
-      filterWeak: '薄弱题',
+      filterReview: '复习',
       startBtn: '开始',
       homeTitle: '返回首页',
       nextBtn: '下一题 →',
@@ -68,7 +68,7 @@
       typeLabelContext: '语境',
       typeLabelSynonym: '近义',
       typeLabelGrammar: '语法',
-      typeLabelWeak: '薄弱'
+      typeLabelReview: '复习'
     },
     'zh-TW': {
       subtitle: '文字·語彙 測驗',
@@ -79,7 +79,7 @@
       filterContext: '語境詞彙',
       filterSynonym: '近義表達',
       filterGrammar: '文法',
-      filterWeak: '薄弱題',
+      filterReview: '複習',
       startBtn: '開始',
       homeTitle: '返回首頁',
       nextBtn: '下一題 →',
@@ -102,7 +102,7 @@
       typeLabelContext: '語境',
       typeLabelSynonym: '近義',
       typeLabelGrammar: '文法',
-      typeLabelWeak: '薄弱'
+      typeLabelReview: '複習'
     },
     ja: {
       subtitle: '文字·語彙クイズ',
@@ -113,7 +113,7 @@
       filterContext: '文脈語彙',
       filterSynonym: '類義表現',
       filterGrammar: '文法',
-      filterWeak: '苦手問題',
+      filterReview: '復習',
       startBtn: 'スタート',
       homeTitle: 'ホームへ',
       nextBtn: '次へ →',
@@ -136,7 +136,7 @@
       typeLabelContext: '文脈',
       typeLabelSynonym: '類義',
       typeLabelGrammar: '文法',
-      typeLabelWeak: '苦手'
+      typeLabelReview: '復習'
     },
     ko: {
       subtitle: '문자·어휘 퀴즈',
@@ -147,7 +147,7 @@
       filterContext: '문맥 어휘',
       filterSynonym: '유의 표현',
       filterGrammar: '문법',
-      filterWeak: '약한 문제',
+      filterReview: '복습',
       startBtn: '시작하기',
       homeTitle: '처음으로',
       nextBtn: '다음 →',
@@ -170,7 +170,7 @@
       typeLabelContext: '문맥 어휘',
       typeLabelSynonym: '유의 표현',
       typeLabelGrammar: '문법',
-      typeLabelWeak: '약한 문제'
+      typeLabelReview: '복습'
     },
     vi: {
       subtitle: 'Trắc nghiệm Từ vựng',
@@ -181,7 +181,7 @@
       filterContext: 'Ngữ cảnh',
       filterSynonym: 'Đồng nghĩa',
       filterGrammar: 'Ngữ pháp',
-      filterWeak: 'Câu yếu',
+      filterReview: 'Ôn tập',
       startBtn: 'Bắt đầu',
       homeTitle: 'Trang chủ',
       nextBtn: 'Tiếp →',
@@ -204,7 +204,7 @@
       typeLabelContext: 'Ngữ cảnh',
       typeLabelSynonym: 'Đồng nghĩa',
       typeLabelGrammar: 'Ngữ pháp',
-      typeLabelWeak: 'Câu yếu'
+      typeLabelReview: 'Ôn tập'
     }
   };
 
