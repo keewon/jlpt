@@ -6,10 +6,13 @@
   let currentIndex = 0;
   let score = 0;
   let selectedFilter = 'all';
+  let selectedLevel = 'n5';
   let wrongAnswers = [];
   let answered = false;
 
-  const STATS_KEY = 'jlpt4_stats';
+  function statsKey() {
+    return 'jlpt_' + selectedLevel + '_stats';
+  }
 
   const TYPE_LABELS = {
     reading: '읽기',
@@ -22,14 +25,14 @@
 
   function loadStats() {
     try {
-      return JSON.parse(localStorage.getItem(STATS_KEY)) || {};
+      return JSON.parse(localStorage.getItem(statsKey())) || {};
     } catch (e) {
       return {};
     }
   }
 
   function saveStats(stats) {
-    localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+    localStorage.setItem(statsKey(), JSON.stringify(stats));
   }
 
   function recordAnswer(questionId, isCorrect) {
@@ -76,12 +79,28 @@
   const choicesEl = document.getElementById('choices');
 
   // Load questions
-  fetch('data/n4.json')
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      allQuestions = data;
-      updateQuestionCount();
+  function loadQuestions() {
+    fetch('data/' + selectedLevel + '.json')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        allQuestions = data;
+        updateQuestionCount();
+      });
+  }
+
+  loadQuestions();
+
+  // Level buttons
+  document.querySelectorAll('.level-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.level-btn').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+      selectedLevel = btn.dataset.level;
+      loadQuestions();
     });
+  });
 
   // Filter buttons
   document.querySelectorAll('.filter-btn').forEach(function (btn) {

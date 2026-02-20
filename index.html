@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>JLPT N4 문자·어휘 퀴즈</title>
+  <title>JLPT 문자·어휘 퀴즈</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <!-- 시작 화면 -->
   <div id="screen-start" class="screen active">
     <div class="container">
-      <h1>JLPT N4<br><span class="subtitle">문자·어휘 퀴즈</span></h1>
+      <h1>JLPT<br><span class="subtitle">문자·어휘 퀴즈</span></h1>
+      <div class="level-section">
+        <div class="level-buttons">
+          <button class="level-btn active" data-level="n5">N5</button>
+          <button class="level-btn" data-level="n4">N4</button>
+        </div>
+      </div>
       <div class="filter-section">
         <p class="filter-label">문제 유형 선택</p>
         <div class="filter-buttons">

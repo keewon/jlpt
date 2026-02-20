@@ -65,6 +65,34 @@ h1 .subtitle {
   font-weight: 600;
 }
 
+.level-section {
+  margin-bottom: 16px;
+}
+
+.level-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.level-btn {
+  padding: 10px 28px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.level-btn.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
 .filter-section {
   background: var(--card);
   border-radius: 16px;
