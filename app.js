@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  var t = window.i18n.t;
+
+  var QUESTION_INSTRUCTIONS = {
+    reading: '＿＿の ことばは ひらがなで どう かきますか。',
+    writing: '＿＿の ことばは どう かきますか。',
+    context: '（　）に なにを いれますか。',
+    synonym: '＿＿の ぶんと だいたい おなじ いみの ぶんは どれですか。',
+    grammar: '（　）に なにを いれますか。'
+  };
+
   let allQuestions = [];
   let quizQuestions = [];
   let currentIndex = 0;
@@ -14,14 +24,10 @@
     return 'jlpt_' + selectedLevel + '_stats';
   }
 
-  const TYPE_LABELS = {
-    reading: '읽기',
-    writing: '쓰기',
-    context: '문맥 어휘',
-    synonym: '유의 표현',
-    grammar: '문법',
-    weak: '약한 문제'
-  };
+  function getTypeLabel(type) {
+    var key = 'typeLabel' + type.charAt(0).toUpperCase() + type.slice(1);
+    return t(key);
+  }
 
   function loadStats() {
     try {
@@ -118,8 +124,8 @@
     var filtered = getFilteredQuestions();
     var total = filtered.length;
     var quizSize = Math.min(total, QUIZ_SIZE);
-    var typeLabel = selectedFilter === 'all' ? '전체' : TYPE_LABELS[selectedFilter];
-    questionCountEl.textContent = typeLabel + ' ' + total + '문제 중 ' + quizSize + '문제 출제';
+    var typeLabel = selectedFilter === 'all' ? t('filterAll') : getTypeLabel(selectedFilter);
+    questionCountEl.textContent = t('questionCountFmt', { type: typeLabel, total: total, size: quizSize });
   }
 
   function getFilteredQuestions() {
@@ -173,12 +179,12 @@
     var total = quizQuestions.length;
 
     progressText.textContent = (currentIndex + 1) + ' / ' + total;
-    scoreText.textContent = score + '점';
+    scoreText.textContent = score + t('scoreUnit');
     progressFill.style.width = ((currentIndex / total) * 100) + '%';
-    typeBadge.textContent = TYPE_LABELS[q.type] || q.type;
+    typeBadge.textContent = getTypeLabel(q.type);
 
     sentenceEl.innerHTML = q.sentence;
-    questionEl.textContent = q.question;
+    questionEl.textContent = QUESTION_INSTRUCTIONS[q.type] || q.question;
 
     // Shuffle choice order
     choiceOrder = [0, 1, 2, 3];
@@ -217,7 +223,7 @@
 
     if (selected === correct) {
       score++;
-      scoreText.textContent = score + '점';
+      scoreText.textContent = score + t('scoreUnit');
       recordAnswer(q.id, true);
     } else {
       wrongAnswers.push({
@@ -250,9 +256,9 @@
 
     // Last question: show result after brief delay
     if (currentIndex === quizQuestions.length - 1) {
-      btnNext.textContent = '결과 보기';
+      btnNext.textContent = t('viewResult');
     } else {
-      btnNext.textContent = '다음 →';
+      btnNext.textContent = t('nextBtn');
     }
     btnNext.style.display = 'block';
   }
@@ -277,11 +283,11 @@
     document.getElementById('result-percent').textContent = percent + '%';
 
     var msg = '';
-    if (percent === 100) msg = '만점! 완벽합니다!';
-    else if (percent >= 80) msg = '훌륭합니다!';
-    else if (percent >= 60) msg = '좋아요, 조금만 더!';
-    else if (percent >= 40) msg = '복습이 필요해요.';
-    else msg = '더 열심히 공부합시다!';
+    if (percent === 100) msg = t('msgPerfect');
+    else if (percent >= 80) msg = t('msgGreat');
+    else if (percent >= 60) msg = t('msgGood');
+    else if (percent >= 40) msg = t('msgReview');
+    else msg = t('msgStudyMore');
     document.getElementById('result-message').textContent = msg;
 
     // Wrong answers
@@ -298,8 +304,8 @@
         div.className = 'wrong-item';
         div.innerHTML =
           '<div class="wrong-sentence">' + item.question.sentence + '</div>' +
-          '<div class="wrong-yours">내 답: ' + item.question.choices[item.selected] + '</div>' +
-          '<div class="wrong-answer">정답: ' + item.question.choices[item.question.answer] + '</div>';
+          '<div class="wrong-yours">' + t('yourAnswer') + item.question.choices[item.selected] + '</div>' +
+          '<div class="wrong-answer">' + t('correctAnswer') + item.question.choices[item.question.answer] + '</div>';
         wrongList.appendChild(div);
       });
     } else {
@@ -337,5 +343,10 @@
       e.preventDefault();
       btnNext.click();
     }
+  });
+
+  // Re-render dynamic text when language changes
+  window.i18n.onLangChange.push(function () {
+    updateQuestionCount();
   });
 })();
