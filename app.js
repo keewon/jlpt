@@ -184,6 +184,7 @@
   btnStart.addEventListener('click', function () {
     var questions = getFilteredQuestions();
     if (questions.length === 0) return;
+    logEvent('quiz_start', { level: selectedLevel, filter: selectedFilter, question_count: Math.min(questions.length, QUIZ_SIZE) });
     startQuiz(questions);
   });
 
@@ -242,12 +243,14 @@
       score++;
       scoreText.textContent = score + t('scoreUnit');
       recordAnswer(q.id, true);
+      logEvent('answer_correct', { level: selectedLevel, question_type: q.type, question_id: q.id });
     } else {
       wrongAnswers.push({
         question: q,
         selected: selected
       });
       recordAnswer(q.id, false);
+      logEvent('answer_wrong', { level: selectedLevel, question_type: q.type, question_id: q.id });
     }
 
     // Show readings for choices if available
@@ -294,6 +297,7 @@
     showScreen(screenResult);
     var total = quizQuestions.length;
     var percent = Math.round((score / total) * 100);
+    logEvent('quiz_complete', { level: selectedLevel, filter: selectedFilter, score: score, total: total, percent: percent });
 
     document.getElementById('result-score-num').textContent = score;
     document.getElementById('result-total-num').textContent = total;
